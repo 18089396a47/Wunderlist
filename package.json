@@ -2,7 +2,7 @@
   "name": "epam",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./client/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,6 +17,18 @@
   },
   "homepage": "https://github.com/18089396a47/Wunderlist#readme",
   "dependencies": {
+    "angular": "^1.4.8",
     "express": "^4.13.3"
+  },
+  "devDependencies": {
+    "babel-core": "5.6.20",
+    "babel-loader": "5.3.1",
+    "css-loader": "^0.23.0",
+    "jshint": "^2.8.0",
+    "jshint-loader": "^0.8.3",
+    "ng-annotate-loader": "0.0.10",
+    "style-loader": "^0.13.0",
+    "stylus-loader": "^1.4.2",
+    "webpack": "^1.12.9"
   }
 }
