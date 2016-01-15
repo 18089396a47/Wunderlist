@@ -6,7 +6,7 @@ module.exports = {
     app: './client/core/bootstrap'
   },
   output: {
-    path: path.join(__dirname, './client/build'),
+    path: path.join(__dirname, './server/public/build'),
     filename: 'bundle.js'
   },
 

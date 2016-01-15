@@ -1,0 +1,16 @@
+{
+	"port": 3000,
+	"mongoose": {
+		"uri": "mongodb://127.0.0.1:27017/test",
+		"options": {}
+	},
+	"session": {
+		"secret": "secret",
+		"key": "sid",
+		"cookie": {
+			"path": "/",
+			"httpOnly": true,
+			"maxAge": null
+		}
+	}
+}

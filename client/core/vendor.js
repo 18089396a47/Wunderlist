@@ -4,4 +4,5 @@ module.exports = function () {
 	require('../stylesheets/style');
 	require('../stylesheets/login');
 	require('../stylesheets/login-form');
+	require('../stylesheets/main');
 };

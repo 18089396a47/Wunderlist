@@ -1,0 +1,102 @@
+*
+	box-sizing border-box
+	padding 0
+	margin 0
+	color #000
+	font-size 18px
+	
+html,
+body
+	height 100%
+
+a
+	text-decoration none
+	
+li
+	list-style none
+	
+vendor(prop, args)
+	-webkit-{prop} args
+	   -moz-{prop} args
+	    -ms-{prop} args
+	     -o-{prop} args
+	        {prop} args
+
+.ng-scope
+	height 100%
+	
+.main-container
+	height 100%
+	&:after
+		content ''
+		display block
+		clear both
+
+.main-column
+	float left
+	height 100%
+	border 1px solid black
+
+.left
+	width 250px
+	background #abc
+	
+.center
+	min-width 250px
+	width calc(100% - 250px)
+	background #cde
+	&.narrow
+		width calc(100% - 600px)
+	
+.right
+	display none
+	background #bcd
+	&.show
+		width 350px
+		
+.column-header
+	height 50px
+	background #aaa
+	border-bottom 1px solid black
+	padding 10px
+	&.user-name
+		text-align center
+		
+.element
+	margin 10px
+	border-radius 5px
+	height 30px
+		
+.add-button
+	background #d43
+	padding 3px 25px 3px 25px
+	position relative
+	display block
+	& span
+		color #bbb
+	&:before
+		content '+'
+		display inline-block
+		position absolute
+		left 5px
+		color #bbb
+	& input
+		background #c32
+		height 100%
+		width 100%
+		display none
+		border none
+		color #bbb
+		text-decoration none
+		scroll none
+	&.focus input
+		display block
+	&.focus span
+		display none
+
+.list,
+.task
+	background #593
+	padding 3px 10px
+	cursor pointer
+	vendor(user-select, none)
