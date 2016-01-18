@@ -13,12 +13,12 @@
 			<input type="text">
 		</a>
 	</div>
-	<div class="main-column center">
+	<div class="main-column center" ng-controller="listController">
 		<div class="column-header">
 			{{list}}
 		</div>
 		<ul class="tasks">
-			<li class="task element" ng-repeat="task in tasks">
+			<li class="task element" ng-repeat="task in $parent.tasks">
 				{{task.name}}
 			</li>
 		</ul>

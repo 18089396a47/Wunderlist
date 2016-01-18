@@ -11,17 +11,33 @@ var app = angular.module('mainForm', ['ngCookies'])
 				$scope.lists = res.data;
 			}, function() {});
 	}])
+	.controller('listController', ['$scope', '$http', '$location', function($scope, $http, $location) {
+		if (!$scope.$parent.list) {
+			var id = $location.$$url;
+			var list = id.substr(id.lastIndexOf('/') + 1);
+			$scope.$parent.list = list;
+		}
+		$http.get('/list/' + $scope.$parent.list, {
+				params: {
+					list: $scope.$parent.list
+				}
+			})
+			.then(function(res) {
+				$scope.$parent.tasks = res.data;
+			}, function() {});
+	}])
 	.config(function($stateProvider, $locationProvider) {
 		$stateProvider
 			.state('main.list', {
-				url: 'list/:id'
+				url: 'list/:id',
+				templateUrl: '',
+				controller: 'listController'
 			});
 		$locationProvider.html5Mode(true);
 	})
 	.directive('addButton', function($http) {
 		return {
 			restrict: 'EAM',
-			//	controller: 'mainController',
 			link: function(scope, element, attrs) {
 				var isEnter = false;
 				element.on('mouseenter', function(e) {
