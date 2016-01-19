@@ -19,7 +19,6 @@ var taskSchema = new Schema({
 
 taskSchema.statics.getTasks = function(list, callback) {
 	var Task = this;
-	console.log(list);
 	mongoose.models.list.findOne({
 		name: list
 	}, function(err, list) {

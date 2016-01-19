@@ -1,7 +1,8 @@
 require('angular-ui-router');
 require('angular-cookies');
 var app = angular.module('loginForm', ['ui.router', 'ngCookies'])
-	.controller('loginController', ['$state', function($state) {
+	.controller('loginController', ['$state', '$cookieStore', function($state, $cookieStore) {
+		$cookieStore.remove('user');
 		$state.go('loginForm');
 	}])
 	.config(['$stateProvider', '$locationProvider', function($stateProvider, $locationProvider) {
@@ -51,18 +52,40 @@ var app = angular.module('loginForm', ['ui.router', 'ngCookies'])
 					e.preventDefault();
 					var name = document.querySelector('#username').value;
 					var pass = document.querySelector('#password').value;
-				//	console.log(name, pass);
 					$http.post('/login', {
 							username: name,
 							password: pass
 						})
 						.then(function() {
-							//console.log(arguments[0]);
 							$cookieStore.put('user', name);
 							$state.go('main');
-						}, function() {
-							//console.log(arguments[0]);
-						});
+						}, function() {});
+				});
+			}
+		};
+	})
+	.directive('registerSubmit', function($http, $cookieStore, $state) {
+		return {
+			restrict: 'EAM',
+			controller: 'loginController',
+			link: function(scope, element, attrs) {
+				element.on('click', function(e) {
+					e.preventDefault();
+					var name = document.querySelector('#register-form #username').value;
+					var pass = document.querySelector('#register-form #password').value;
+					var passConf = document.querySelector('#register-form #confirm-password').value;
+					if (pass !== passConf) {
+						alert('Please, confirm the password');
+					} else {
+						$http.post('/register', {
+								username: name,
+								password: pass
+							})
+							.then(function() {
+								$cookieStore.put('user', name);
+								$state.go('main');
+							}, function() {});
+					}
 				});
 			}
 		};

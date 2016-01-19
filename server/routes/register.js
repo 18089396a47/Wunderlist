@@ -1,11 +1,5 @@
 var User = require('../models/user').User;
 var HttpError = require('../error').HttpError;
-var AuthError = require('../models/user').AuthError;
-var path = require('path');
-
-exports.get = function(req, res, next) {
-	res.sendFile(path.join(__dirname, '../public/index.html'));
-};
 
 exports.post = function(req, res, next) {
 	var username = req.body.username;
@@ -20,9 +14,19 @@ exports.post = function(req, res, next) {
 			}
 		}
 		if (!user) {
-			return next(new HttpError(404, 'User Not Found'));
+			user = new User({
+				username: username,
+				password: password
+			});
+			user.save(function(err) {
+				if (err) {
+					return next(err);
+				}
+				req.session.user = user._id;
+				res.send({});
+			});
+		} else {
+			next(new HttpError(409, 'User Already Exists'));
 		}
-		req.session.user = user._id;
-		res.send({});
 	});
 };

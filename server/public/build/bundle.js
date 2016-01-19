@@ -47,7 +47,7 @@
 	'use strict';
 	
 	__webpack_require__(1)();
-	var appModule = __webpack_require__(16);
+	var appModule = __webpack_require__(17);
 	
 	angular.element(document).ready(function () {
 	  angular.bootstrap(document, [appModule.name], {});
@@ -29604,7 +29604,7 @@
 	
 	
 	// module
-	exports.push([module.id, "*{box-sizing:border-box;padding:0;margin:0;color:#000;font-size:18px}body,html{height:100%}a{text-decoration:none}li{list-style:none}.main-container,.ng-scope{height:100%}.main-container:after{content:'';display:block;clear:both}.main-column{float:left;height:100%;border:1px solid #000}.left{width:250px;background:#abc}.center{min-width:250px;width:calc(100% - 250px);background:#cde}.center.narrow{width:calc(100% - 600px)}.right{display:none;background:#bcd}.right.show{width:350px}.column-header{height:50px;background:#aaa;border-bottom:1px solid #000;padding:10px}.column-header.user-name{text-align:center}.element{margin:10px;border-radius:5px;height:30px}.add-button{background:#d43;padding:3px 25px;position:relative;display:block}.add-button span{color:#bbb}.add-button:before{content:'+';display:inline-block;position:absolute;left:5px;color:#bbb}.add-button input{background:#c32;height:100%;width:100%;display:none;border:none;color:#bbb;text-decoration:none;scroll:none}.add-button.focus input{display:block}.add-button.focus span{display:none}.list,.task{background:#593;padding:3px 10px;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;-o-user-select:none;user-select:none}", ""]);
+	exports.push([module.id, "*{box-sizing:border-box;padding:0;margin:0;color:#000;font-size:18px}body,html{height:100%}a{text-decoration:none}li{list-style:none}.ng-scope{height:100%}.main-container{height:100%;position:relative}.main-container:after{content:'';display:block;clear:both}.main-column{float:left;height:100%;border:1px solid #000}.left{width:250px;background:#abc}.center{min-width:250px;width:calc(100% - 250px);background:#cde}.center.narrow{width:calc(100% - 600px)}.right{display:none;background:#bcd}.right.show{width:350px}.column-header{height:50px;background:#aaa;border-bottom:1px solid #000;padding:10px}.column-header.user-name{text-align:center}.element{margin:10px;border-radius:5px;height:30px;position:relative}.add-button{background:#d43;padding:3px 25px;position:relative;display:block}.add-button span{color:#bbb}.add-button:before{content:'+';display:inline-block;position:absolute;left:5px;color:#bbb}.add-button input{background:#c32;height:100%;width:100%;display:none;border:none;color:#bbb;text-decoration:none;scroll:none}.add-button.focus input{display:block}.add-button.focus span{display:none}.list,.task{background:#593;padding:3px 10px;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;-o-user-select:none;user-select:none}.list .share{position:absolute;width:24px;height:24px;right:3px;top:3px;background-image:url(" + __webpack_require__(16) + ")}.list .add-user{z-index:100;position:absolute;width:250px;height:30px;right:-250px;top:0;margin:0}.logout-button{position:absolute;right:10px;top:10px;width:100px;height:30px;padding:3px;text-align:center;background:#bbb;border-radius:5px;cursor:pointer;color:inherit;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;-o-user-select:none;user-select:none}.logout-button:hover{text-decoration:none}", ""]);
 	
 	// exports
 
@@ -29613,10 +29613,16 @@
 /* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
+	module.exports = __webpack_require__.p + "653dab4273736d3e4fee7a8acafcc50a.svg";
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 	
-	__webpack_require__(17);
-	module.exports = angular.module('index', [__webpack_require__(18), __webpack_require__(21), 'ui.router']).controller('indexController', ["$state", function ($state) {}]).config(['$stateProvider', '$locationProvider', function ($stateProvider, $locationProvider) {
+	__webpack_require__(18);
+	module.exports = angular.module('index', [__webpack_require__(19), __webpack_require__(22), 'ui.router']).controller('indexController', ["$state", function ($state) {}]).config(['$stateProvider', '$locationProvider', function ($stateProvider, $locationProvider) {
 		$stateProvider.state('main', {
 			url: '/',
 			templateUrl: 'main.html'
@@ -29628,7 +29634,7 @@
 	}]);
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports) {
 
 	/**
@@ -34003,14 +34009,15 @@
 	})(window, window.angular);
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	__webpack_require__(17);
-	__webpack_require__(19);
-	var app = angular.module('loginForm', ['ui.router', 'ngCookies']).controller('loginController', ['$state', function ($state) {
+	__webpack_require__(18);
+	__webpack_require__(20);
+	var app = angular.module('loginForm', ['ui.router', 'ngCookies']).controller('loginController', ['$state', '$cookieStore', function ($state, $cookieStore) {
+		$cookieStore.remove('user');
 		$state.go('loginForm');
 	}]).config(['$stateProvider', '$locationProvider', function ($stateProvider, $locationProvider) {
 		$stateProvider.state('loginForm', {
@@ -34051,34 +34058,54 @@
 					e.preventDefault();
 					var name = document.querySelector('#username').value;
 					var pass = document.querySelector('#password').value;
-					//	console.log(name, pass);
 					$http.post('/login', {
 						username: name,
 						password: pass
 					}).then(function () {
-						//console.log(arguments[0]);
 						$cookieStore.put('user', name);
 						$state.go('main');
 					}, function () {});
 				});
 			}
 		};
+	}]).directive('registerSubmit', ["$http", "$cookieStore", "$state", function ($http, $cookieStore, $state) {
+		return {
+			restrict: 'EAM',
+			controller: 'loginController',
+			link: function link(scope, element, attrs) {
+				element.on('click', function (e) {
+					e.preventDefault();
+					var name = document.querySelector('#register-form #username').value;
+					var pass = document.querySelector('#register-form #password').value;
+					var passConf = document.querySelector('#register-form #confirm-password').value;
+					if (pass !== passConf) {
+						alert('Please, confirm the password');
+					} else {
+						$http.post('/register', {
+							username: name,
+							password: pass
+						}).then(function () {
+							$cookieStore.put('user', name);
+							$state.go('main');
+						}, function () {});
+					}
+				});
+			}
+		};
 	}]);
 	
 	module.exports = app.name;
-	
-	//console.log(arguments[0]);
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(20);
+	__webpack_require__(21);
 	module.exports = 'ngCookies';
 
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports) {
 
 	/**
@@ -34405,12 +34432,12 @@
 
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	__webpack_require__(19);
+	__webpack_require__(20);
 	var app = angular.module('mainForm', ['ngCookies']).controller('mainController', ['$scope', '$cookies', '$http', function ($scope, $cookieStore, $http) {
 		$scope.user = $cookieStore.get('user').split('"')[1];
 		$http.get('/', {
@@ -34488,6 +34515,16 @@
 								}, function () {
 									console.log(arguments);
 								});
+							} else if (name === 'Share To User') {
+								$http.put('/list/' + scope.list.name, {
+									user: val,
+									listname: scope.list
+								}).then(function (res) {
+									scope.$parent.flag = !scope.$parent.flag;
+								}, function () {
+									console.log(arguments);
+									scope.$parent.flag = !scope.$parent.flag;
+								});
 							} else {}
 						}
 					}
@@ -34512,8 +34549,17 @@
 				});
 			}
 		};
+	}]).directive('share', ["$http", function ($http) {
+		return {
+			restrict: 'EAM',
+			link: function link(scope, element, attrs) {
+				element.on('click', function (e) {});
+			}
+		};
 	}]);
 	module.exports = app.name;
+	
+	//$http.put
 
 /***/ }
 /******/ ]);

@@ -85,6 +85,17 @@ var app = angular.module('mainForm', ['ngCookies'])
 									}, function() {
 										console.log(arguments);
 									});
+							} else if (name === 'Share To User') {
+								$http.put('/list/' + scope.list.name, {
+										user: val,
+										listname: scope.list
+									})
+									.then(function(res) {
+										scope.$parent.flag = !scope.$parent.flag;
+									}, function() {
+										console.log(arguments);
+										scope.$parent.flag = !scope.$parent.flag;
+									});
 							} else {}
 						}
 					}
@@ -108,6 +119,16 @@ var app = angular.module('mainForm', ['ngCookies'])
 					$state.go('main.list', {
 						id: scope.$parent.list
 					});
+				});
+			}
+		};
+	})
+	.directive('share', function($http) {
+		return {
+			restrict: 'EAM',
+			link: function(scope, element, attrs) {
+				element.on('click', function(e) {
+					//$http.put
 				});
 			}
 		};

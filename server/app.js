@@ -43,6 +43,7 @@ app.use(errorHandler());
 app.use(express.Router());
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public/build')));
 
 // production error handler
 // no stacktraces leaked to user

@@ -58,6 +58,8 @@ userSchema.statics.authorize = function(username, password, callback) {
 				} else {
 					callback(new AuthError(403, 'Invalid password'));
 				}
+			} else {
+				callback(null, null);
 			}
 		}
 	], callback);

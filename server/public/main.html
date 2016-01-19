@@ -6,6 +6,11 @@
 		<ul class="lists">
 			<li class="list element" ng-repeat="list in lists" ng-click="$parent.list=list.name" list>
 				{{list.name}}
+				<div class="share" ng-click="flag=!flag"></div>
+				<div class="element add-button add-user" ng-if="flag" add-button>
+					<span>Share To User</span>
+					<input type="text">
+				</div>
 			</li>
 		</ul>
 		<a class="add-button element" add-button>
@@ -34,4 +39,5 @@
 			<input type="text">
 		</a>
 	</div>
+	<a class="logout-button" ui-sref="login">logout</a>
 </div>

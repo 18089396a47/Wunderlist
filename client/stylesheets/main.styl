@@ -27,6 +27,7 @@ vendor(prop, args)
 	
 .main-container
 	height 100%
+	position relative
 	&:after
 		content ''
 		display block
@@ -66,6 +67,7 @@ vendor(prop, args)
 	margin 10px
 	border-radius 5px
 	height 30px
+	position relative
 		
 .add-button
 	background #d43
@@ -100,3 +102,36 @@ vendor(prop, args)
 	padding 3px 10px
 	cursor pointer
 	vendor(user-select, none)
+	
+.list
+	& .share
+		position absolute
+		width 24px
+		height 24px
+		right 3px
+		top 3px
+		background-image url(../images/share.svg)
+	& .add-user
+		z-index 100
+		position absolute
+		width 250px
+		height 30px
+		right -250px
+		top 0
+		margin 0
+	
+.logout-button
+	position absolute
+	right 10px
+	top 10px
+	width 100px
+	height 30px
+	padding 3px
+	text-align center
+	background #bbb
+	border-radius 5px
+	cursor pointer
+	color inherit
+	vendor(user-select, none)
+	&:hover
+		text-decoration none

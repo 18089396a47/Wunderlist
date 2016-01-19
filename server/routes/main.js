@@ -2,6 +2,7 @@ var path = require('path');
 var mongoose = require('mongoose');
 var List = require('../models/list').List;
 var HttpError = require('../error').HttpError;
+var checkAuth = require('../libs/checkAuth');
 
 exports.get = function(req, res, next) {
 	if (req.xhr || req.headers.accept.indexOf('json') !== -1) {
@@ -9,11 +10,10 @@ exports.get = function(req, res, next) {
 			if (err) {
 				throw err;
 			}
-			//console.log(lists);
 			res.json(lists);
 		});
 	} else {
-		if (false) {
+		if (!checkAuth(req)) {
 			res.redirect('/login');
 		} else {
 			res.sendFile(path.join(__dirname, '../public/'));

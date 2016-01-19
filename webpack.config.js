@@ -27,6 +27,9 @@ module.exports = {
       test: /\.js$/,
       loader: 'ng-annotate!babel!jshint',
       exclude: /node_modules|bower_components/
-    }, ]
+    }, {
+      test: /\.svg$/,
+      loader: 'file-loader'
+    }]
   }
 };

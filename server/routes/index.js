@@ -3,8 +3,10 @@ module.exports = function(app) {
 	app.post('/', require('./main').post);
 	app.get('/login', require('./login').get);
 	app.post('/login', require('./login').post);
+	app.post('/register', require('./register').post);
 	app.get('/list/:id', require('./list').get);
 	app.post('/list/:id', require('./list').post);
+	app.put('/list/:id', require('./list').put);
 	// app.get('/', function(req, res) {
 	// 	res.sendFile(path.join(__dirname, '../public/login.html'));
 	// });
