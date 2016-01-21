@@ -6,12 +6,21 @@ var checkAuth = require('../libs/checkAuth');
 
 exports.get = function(req, res, next) {
 	if (req.xhr || req.headers.accept.indexOf('json') !== -1) {
-		List.getLists(req.query.user, function(err, lists) {
-			if (err) {
-				throw err;
-			}
-			res.json(lists);
-		});
+		if (req.query.user) {
+			List.getLists(req.query.user, function(err, lists) {
+				if (err) {
+					throw err;
+				}
+				res.json(lists);
+			});
+		} else {
+			List.findById(req.query.listId, function(err, list) {
+				if(err) {
+					throw err;
+				}
+				res.json(list);
+			});
+		}
 	} else {
 		if (!checkAuth(req)) {
 			res.redirect('/login');
@@ -34,7 +43,7 @@ exports.post = function(req, res, next) {
 			if (err) {
 				return next(new HttpError(err));
 			}
-			res.send({});
+			res.json(list);
 		});
 	});
 };

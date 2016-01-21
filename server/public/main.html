@@ -4,7 +4,7 @@
 			{{user}}
 		</div>
 		<ul class="lists">
-			<li class="list element" ng-repeat="list in lists" ng-click="$parent.list=list.name" list>
+			<li class="list element" ng-repeat="list in lists" ng-click="$parent.list=list" ng-class="{owner: list.owner === user}" list>
 				{{list.name}}
 				<div class="share" ng-click="flag=!flag"></div>
 				<div class="element add-button add-user" ng-if="flag" add-button>
@@ -20,7 +20,7 @@
 	</div>
 	<div class="main-column center" ng-controller="listController">
 		<div class="column-header">
-			{{list}}
+			{{list.name}}
 		</div>
 		<ul class="tasks">
 			<li class="task element" ng-repeat="task in $parent.tasks">

@@ -98,12 +98,17 @@ vendor(prop, args)
 
 .list,
 .task
-	background #593
 	padding 3px 10px
 	cursor pointer
 	vendor(user-select, none)
 	
+.task
+	background #593
+	
 .list
+	background #a73
+	&.owner
+		background #593
 	& .share
 		position absolute
 		width 24px

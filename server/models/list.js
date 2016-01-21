@@ -15,11 +15,15 @@ var listSchema = new Schema({
 });
 
 listSchema.methods.addUser = function(user) {
-	this.users.push(user);
+	if (this.users.indexOf(user) === -1) {
+		this.users.push(user);
+	}
 };
 
 listSchema.methods.removeUser = function(user) {
-	this.users.splice(this.users.find(user));
+	if (this.users.indexOf(user) !== -1) {
+		this.users.splice(this.users.indexOf(user));
+	}
 };
 
 listSchema.statics.getLists = function(user, callback) {

@@ -22,10 +22,8 @@ exports.get = function(req, res, next) {
 
 exports.post = function(req, res, next) {
 	var taskname = req.body.taskname;
-	var listname = req.body.listname;
-	mongoose.models.list.findOne({
-		name: listname
-	}, function(err, list) {
+	var listId = req.body.listId;
+	mongoose.models.list.findById(listId, function(err, list) {
 		if (err) {
 			throw err;
 		}
@@ -44,10 +42,8 @@ exports.post = function(req, res, next) {
 
 exports.put = function(req, res, next) {
 	var username = req.body.user;
-	var list = req.body.listname;
-	mongoose.models.list.findOne({
-		name: list.name
-	}, function(err, list) {
+	var listId = req.body.listId;
+	mongoose.models.list.findById(listId, function(err, list) {
 		if (err) {
 			throw err;
 		}

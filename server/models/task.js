@@ -19,11 +19,10 @@ var taskSchema = new Schema({
 
 taskSchema.statics.getTasks = function(list, callback) {
 	var Task = this;
-	mongoose.models.list.findOne({
-		name: list
-	}, function(err, list) {
+	list = JSON.parse(list);
+	mongoose.models.list.findById(list, function(err, list) {
 		Task.find({
-			list: list._id
+			list: list
 		}, callback);
 	});
 };

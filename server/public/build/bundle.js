@@ -29604,7 +29604,7 @@
 	
 	
 	// module
-	exports.push([module.id, "*{box-sizing:border-box;padding:0;margin:0;color:#000;font-size:18px}body,html{height:100%}a{text-decoration:none}li{list-style:none}.ng-scope{height:100%}.main-container{height:100%;position:relative}.main-container:after{content:'';display:block;clear:both}.main-column{float:left;height:100%;border:1px solid #000}.left{width:250px;background:#abc}.center{min-width:250px;width:calc(100% - 250px);background:#cde}.center.narrow{width:calc(100% - 600px)}.right{display:none;background:#bcd}.right.show{width:350px}.column-header{height:50px;background:#aaa;border-bottom:1px solid #000;padding:10px}.column-header.user-name{text-align:center}.element{margin:10px;border-radius:5px;height:30px;position:relative}.add-button{background:#d43;padding:3px 25px;position:relative;display:block}.add-button span{color:#bbb}.add-button:before{content:'+';display:inline-block;position:absolute;left:5px;color:#bbb}.add-button input{background:#c32;height:100%;width:100%;display:none;border:none;color:#bbb;text-decoration:none;scroll:none}.add-button.focus input{display:block}.add-button.focus span{display:none}.list,.task{background:#593;padding:3px 10px;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;-o-user-select:none;user-select:none}.list .share{position:absolute;width:24px;height:24px;right:3px;top:3px;background-image:url(" + __webpack_require__(16) + ")}.list .add-user{z-index:100;position:absolute;width:250px;height:30px;right:-250px;top:0;margin:0}.logout-button{position:absolute;right:10px;top:10px;width:100px;height:30px;padding:3px;text-align:center;background:#bbb;border-radius:5px;cursor:pointer;color:inherit;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;-o-user-select:none;user-select:none}.logout-button:hover{text-decoration:none}", ""]);
+	exports.push([module.id, "*{box-sizing:border-box;padding:0;margin:0;color:#000;font-size:18px}body,html{height:100%}a{text-decoration:none}li{list-style:none}.ng-scope{height:100%}.main-container{height:100%;position:relative}.main-container:after{content:'';display:block;clear:both}.main-column{float:left;height:100%;border:1px solid #000}.left{width:250px;background:#abc}.center{min-width:250px;width:calc(100% - 250px);background:#cde}.center.narrow{width:calc(100% - 600px)}.right{display:none;background:#bcd}.right.show{width:350px}.column-header{height:50px;background:#aaa;border-bottom:1px solid #000;padding:10px}.column-header.user-name{text-align:center}.element{margin:10px;border-radius:5px;height:30px;position:relative}.add-button{background:#d43;padding:3px 25px;position:relative;display:block}.add-button span{color:#bbb}.add-button:before{content:'+';display:inline-block;position:absolute;left:5px;color:#bbb}.add-button input{background:#c32;height:100%;width:100%;display:none;border:none;color:#bbb;text-decoration:none;scroll:none}.add-button.focus input{display:block}.add-button.focus span{display:none}.list,.task{padding:3px 10px;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;-o-user-select:none;user-select:none}.task{background:#593}.list{background:#a73}.list.owner{background:#593}.list .share{position:absolute;width:24px;height:24px;right:3px;top:3px;background-image:url(" + __webpack_require__(16) + ")}.list .add-user{z-index:100;position:absolute;width:250px;height:30px;right:-250px;top:0;margin:0}.logout-button{position:absolute;right:10px;top:10px;width:100px;height:30px;padding:3px;text-align:center;background:#bbb;border-radius:5px;cursor:pointer;color:inherit;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;-o-user-select:none;user-select:none}.logout-button:hover{text-decoration:none}", ""]);
 	
 	// exports
 
@@ -34064,7 +34064,9 @@
 					}).then(function () {
 						$cookieStore.put('user', name);
 						$state.go('main');
-					}, function () {});
+					}, function (res) {
+						alert(res.data.status + ': ' + res.data.message);
+					});
 				});
 			}
 		};
@@ -34087,7 +34089,9 @@
 						}).then(function () {
 							$cookieStore.put('user', name);
 							$state.go('main');
-						}, function () {});
+						}, function (res) {
+							alert(res.data.status + ': ' + res.data.message);
+						});
 					}
 				});
 			}
@@ -34448,18 +34452,38 @@
 			$scope.lists = res.data;
 		}, function () {});
 	}]).controller('listController', ['$scope', '$http', '$location', function ($scope, $http, $location) {
+		var flag = true;
 		if (!$scope.$parent.list) {
 			var id = $location.$$url;
-			var list = id.substr(id.lastIndexOf('/') + 1);
-			$scope.$parent.list = list;
+			var listId = id.substr(id.lastIndexOf('/') + 1);
+			var list;
+			flag = false;
+			$http.get('/', {
+				params: {
+					listId: listId
+				}
+			}).then(function (res) {
+				$scope.$parent.list = res.data;
+				flag = true;
+			}, function () {
+				flag = true;
+			});
 		}
-		$http.get('/list/' + $scope.$parent.list, {
-			params: {
-				list: $scope.$parent.list
-			}
-		}).then(function (res) {
-			$scope.$parent.tasks = res.data;
-		}, function () {});
+	
+		function sendReq() {
+			$http.get('/list/' + $scope.$parent.list, {
+				params: {
+					list: $scope.$parent.list
+				}
+			}).then(function (res) {
+				$scope.$parent.tasks = res.data;
+			}, function () {});
+		}
+		if (flag) {
+			sendReq();
+		} else {
+			setTimeout(sendReq, 100);
+		}
 	}]).config(["$stateProvider", "$locationProvider", function ($stateProvider, $locationProvider) {
 		$stateProvider.state('main.list', {
 			url: 'list/:id',
@@ -34498,16 +34522,15 @@
 									listname: val,
 									user: scope.user
 								}).then(function (res) {
-									scope.lists.push({
-										name: val
-									});
+									console.log(res.data);
+									scope.lists.push(res.data);
 								}, function () {
 									console.log(arguments);
 								});
 							} else if (name === 'Add Task') {
 								$http.post('/list/' + scope.list, {
 									taskname: val,
-									listname: scope.list
+									listId: scope.list._id
 								}).then(function (res) {
 									scope.tasks.push({
 										name: val
@@ -34518,7 +34541,7 @@
 							} else if (name === 'Share To User') {
 								$http.put('/list/' + scope.list.name, {
 									user: val,
-									listname: scope.list
+									listId: scope.list._id
 								}).then(function (res) {
 									scope.$parent.flag = !scope.$parent.flag;
 								}, function () {
@@ -34544,7 +34567,7 @@
 						scope.$parent.tasks = res.data;
 					}, function () {});
 					$state.go('main.list', {
-						id: scope.$parent.list
+						id: scope.$parent.list._id
 					});
 				});
 			}

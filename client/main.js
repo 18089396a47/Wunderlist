@@ -12,19 +12,40 @@ var app = angular.module('mainForm', ['ngCookies'])
 			}, function() {});
 	}])
 	.controller('listController', ['$scope', '$http', '$location', function($scope, $http, $location) {
+		var flag = true;
 		if (!$scope.$parent.list) {
 			var id = $location.$$url;
-			var list = id.substr(id.lastIndexOf('/') + 1);
-			$scope.$parent.list = list;
+			var listId = id.substr(id.lastIndexOf('/') + 1);
+			var list;
+			flag = false;
+			$http.get('/', {
+					params: {
+						listId: listId
+					}
+				})
+				.then(function(res) {
+					$scope.$parent.list = res.data;
+					flag = true;
+				}, function() {
+					flag = true;
+				});
 		}
-		$http.get('/list/' + $scope.$parent.list, {
-				params: {
-					list: $scope.$parent.list
-				}
-			})
-			.then(function(res) {
-				$scope.$parent.tasks = res.data;
-			}, function() {});
+
+		function sendReq() {
+			$http.get('/list/' + $scope.$parent.list, {
+					params: {
+						list: $scope.$parent.list
+					}
+				})
+				.then(function(res) {
+					$scope.$parent.tasks = res.data;
+				}, function() {});
+		}
+		if (flag) {
+			sendReq();
+		} else {
+			setTimeout(sendReq, 100);
+		}
 	}])
 	.config(function($stateProvider, $locationProvider) {
 		$stateProvider
@@ -67,16 +88,15 @@ var app = angular.module('mainForm', ['ngCookies'])
 										user: scope.user
 									})
 									.then(function(res) {
-										scope.lists.push({
-											name: val
-										});
+										console.log(res.data);
+										scope.lists.push(res.data);
 									}, function() {
 										console.log(arguments);
 									});
 							} else if (name === 'Add Task') {
 								$http.post('/list/' + scope.list, {
 										taskname: val,
-										listname: scope.list
+										listId: scope.list._id
 									})
 									.then(function(res) {
 										scope.tasks.push({
@@ -88,7 +108,7 @@ var app = angular.module('mainForm', ['ngCookies'])
 							} else if (name === 'Share To User') {
 								$http.put('/list/' + scope.list.name, {
 										user: val,
-										listname: scope.list
+										listId: scope.list._id
 									})
 									.then(function(res) {
 										scope.$parent.flag = !scope.$parent.flag;
@@ -117,7 +137,7 @@ var app = angular.module('mainForm', ['ngCookies'])
 							scope.$parent.tasks = res.data;
 						}, function() {});
 					$state.go('main.list', {
-						id: scope.$parent.list
+						id: scope.$parent.list._id
 					});
 				});
 			}

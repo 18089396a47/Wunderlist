@@ -59,7 +59,9 @@ var app = angular.module('loginForm', ['ui.router', 'ngCookies'])
 						.then(function() {
 							$cookieStore.put('user', name);
 							$state.go('main');
-						}, function() {});
+						}, function(res) {
+							alert(res.data.status + ': ' + res.data.message);
+						});
 				});
 			}
 		};
@@ -84,7 +86,9 @@ var app = angular.module('loginForm', ['ui.router', 'ngCookies'])
 							.then(function() {
 								$cookieStore.put('user', name);
 								$state.go('main');
-							}, function() {});
+							}, function(res) {
+								alert(res.data.status + ': ' + res.data.message);
+							});
 					}
 				});
 			}
