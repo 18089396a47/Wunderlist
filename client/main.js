@@ -16,6 +16,9 @@ var app = angular.module('mainForm', ['ngCookies'])
 		if (!$scope.$parent.list) {
 			var id = $location.$$url;
 			var listId = id.substr(id.lastIndexOf('/') + 1);
+			if (!listId) {
+				return;
+			}
 			var list;
 			flag = false;
 			$http.get('/', {

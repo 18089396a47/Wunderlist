@@ -24,7 +24,7 @@
 		</div>
 		<ul class="tasks">
 			<li class="task element" ng-repeat="task in $parent.tasks">
-				{{task.name}}
+				<label><input type="checkbox" name="checkbox" value="value" ng-checked="task.isDone">{{task.name}}</label>
 			</li>
 		</ul>
 		<a class="add-button element" add-button ng-if="list">
